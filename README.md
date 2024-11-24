@@ -24,10 +24,11 @@ python3 -m pytest
 
 The following files causes ```TypeError``` due to the change in semantics of type hinting that may have been introduced in Python 3.10+. These files are
 
-* lists.py
+* list.py
 * hosts.py
 * servers.py
 * middleware.py
+* servers.py
 * systems.py
 
 A sample of such error is shown below

@@ -18,3 +18,50 @@ cd .../clearpath_config
 python3 -m pytest
 ```
 > **PyTest** will automatically search for the suffix `_test` throughout the current directory and run the tests.
+
+
+### Errors that have been solved
+
+* Type hinting for ```BaseConfig``` class
+
+```bash
+[generate_description-5] Traceback (most recent call last):
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/clearpath_generator_common/generate_description", line 40, in <module>
+[generate_description-5]     from clearpath_generator_common.common import BaseGenerator
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/python3.10/site-packages/clearpath_generator_common/common.py", line 45, in <module>
+[generate_description-5]     from clearpath_config.clearpath_config import ClearpathConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/clearpath_config.py", line 30, in <module>
+[generate_description-5]     from clearpath_config.system.system import SystemConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/system/system.py", line 38, in <module>
+[generate_description-5]     from clearpath_config.system.hosts import HostConfig, HostListConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/system/hosts.py", line 31, in <module>
+[generate_description-5]     from clearpath_config.common.types.list import ListConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/common/types/list.py", line 45, in <module>
+[generate_description-5]     class ListConfig(Generic[T, U]):
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/common/types/list.py", line 64, in ListConfig
+[generate_description-5]     _obj: T | U,
+[generate_description-5] TypeError: unsupported operand type(s) for |: 'TypeVar' and 'TypeVar'
+[ERROR] [generate_description-5]: process has died [pid 82323, exit code 1, cmd '/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/clearpath_generator_common/generate_description -s /home/tigerwife/clearpath_simulator_harmonic_ws/robot_yamls/ -r husky_a200_sample.yaml --ros-args -r __node:=generate_description'].
+```
+
+* Unsupported type hinting leading to TypeError in lists.py file
+
+```bash
+[generate_description-5] Traceback (most recent call last):
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/clearpath_generator_common/generate_description", line 40, in <module>
+[generate_description-5]     from clearpath_generator_common.common import BaseGenerator
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/python3.10/site-packages/clearpath_generator_common/common.py", line 45, in <module>
+[generate_description-5]     from clearpath_config.clearpath_config import ClearpathConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/clearpath_config.py", line 30, in <module>
+[generate_description-5]     from clearpath_config.system.system import SystemConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/system/system.py", line 38, in <module>
+[generate_description-5]     from clearpath_config.system.hosts import HostConfig, HostListConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/system/hosts.py", line 31, in <module>
+[generate_description-5]     from clearpath_config.common.types.list import ListConfig
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/common/types/list.py", line 45, in <module>
+[generate_description-5]     class ListConfig(Generic[T, U]):
+[generate_description-5]   File "/home/tigerwife/clearpath_simulator_harmonic_ws/build/clearpath_config/clearpath_config/common/types/list.py", line 64, in ListConfig
+[generate_description-5]     _obj: T | U,
+[generate_description-5] TypeError: unsupported operand type(s) for |: 'TypeVar' and 'TypeVar'
+[ERROR] [generate_description-5]: process has died [pid 82323, exit code 1, cmd '/home/tigerwife/clearpath_simulator_harmonic_ws/install/clearpath_generator_common/lib/clearpath_generator_common/generate_description -s /home/tigerwife/clearpath_simulator_harmonic_ws/robot_yamls/ -r husky_a200_sample.yaml --ros-args -r __node:=generate_description'].
+```

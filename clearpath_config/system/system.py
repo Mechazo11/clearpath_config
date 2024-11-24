@@ -1,33 +1,40 @@
-# Software License Agreement (BSD)
-#
-# @author    Luis Camero <lcamero@clearpathrobotics.com>
-# @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-# * Redistributions of source code must retain the above copyright notice,
-#   this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright notice,
-#   this list of conditions and the following disclaimer in the documentation
-#   and/or other materials provided with the distribution.
-# * Neither the name of Clearpath Robotics nor the names of its contributors
-#   may be used to endorse or promote products derived from this software
-#   without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
+#!/usr/bin/env python3
 
+"""
+Software License Agreement (BSD)
+
+@author    Luis Camero <lcamero@clearpathrobotics.com>
+@copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+
+Patch that updates some of the type hinting semantics that sovles ```TypeError``` fatal errors by
+@author    Azmyin Md. Kamal <azmyin12@gmail.com>
+
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+* Neither the name of Clearpath Robotics nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+"""
+
+# imports
 import socket
-from typing import List
+from typing import List, Union
 
 from clearpath_config.common.types.config import BaseConfig
 from clearpath_config.common.types.domain_id import DomainID
@@ -89,12 +96,18 @@ class SystemConfig(BaseConfig):
     def __init__(
             self,
             config: dict = {},
-            hosts: List[dict] | HostListConfig = DEFAULTS[HOSTS],
-            localhost: str | Hostname = DEFAULTS[LOCALHOST],
-            username: str | Username = DEFAULTS[USERNAME],
-            namespace: str | Namespace = DEFAULTS[NAMESPACE],
-            domain_id: int | DomainID = DEFAULTS[DOMAIN_ID],
-            middleware: dict | MiddlewareConfig = DEFAULTS[MIDDLEWARE],
+            # hosts: List[dict] | HostListConfig = DEFAULTS[HOSTS],
+            # localhost: str | Hostname = DEFAULTS[LOCALHOST],
+            # username: str | Username = DEFAULTS[USERNAME],
+            # namespace: str | Namespace = DEFAULTS[NAMESPACE],
+            # domain_id: int | DomainID = DEFAULTS[DOMAIN_ID],
+            # middleware: dict | MiddlewareConfig = DEFAULTS[MIDDLEWARE],
+            hosts: Union[List[dict], HostListConfig] = DEFAULTS[HOSTS],
+            localhost: Union[str, Hostname] = DEFAULTS[LOCALHOST],
+            username: Union[str, Username] = DEFAULTS[USERNAME],
+            namespace: Union[str, Namespace] = DEFAULTS[NAMESPACE],
+            domain_id: Union[int, DomainID] = DEFAULTS[DOMAIN_ID],
+            middleware: Union[dict, MiddlewareConfig] = DEFAULTS[MIDDLEWARE],
             workspaces: list = DEFAULTS[WORKSPACES]
             ) -> None:
         # Initialization
@@ -143,7 +156,7 @@ class SystemConfig(BaseConfig):
         return self._hosts
 
     @hosts.setter
-    def hosts(self, value: List[dict] | HostListConfig) -> None:
+    def hosts(self, value: Union[List[dict], HostListConfig]) -> None:
         host_list = []
         if isinstance(value, list):
             for d in value:
@@ -180,7 +193,7 @@ class SystemConfig(BaseConfig):
         return str(self._localhost)
 
     @localhost.setter
-    def localhost(self, value: str | Hostname) -> None:
+    def localhost(self, value: Union[str, Hostname]) -> None:
         assert isinstance(value, str) or isinstance(value, Hostname), (
             f"Localhost of {value} is invalid, must be of type 'str' or 'Hostname'"
         )
@@ -198,7 +211,7 @@ class SystemConfig(BaseConfig):
         return str(self._username)
 
     @username.setter
-    def username(self, value: str | Username) -> None:
+    def username(self, value: Union[str, Username]) -> None:
         if isinstance(value, str):
             self._username = Username(value)
         elif isinstance(value, Username):
@@ -217,7 +230,7 @@ class SystemConfig(BaseConfig):
         return BaseConfig.get_namespace()
 
     @namespace.setter
-    def namespace(self, value: str | Namespace) -> None:
+    def namespace(self, value: Union[str, Namespace]) -> None:
         BaseConfig.set_namespace(value)
 
     @property

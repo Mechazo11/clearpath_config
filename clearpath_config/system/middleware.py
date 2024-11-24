@@ -1,33 +1,40 @@
-# Software License Agreement (BSD)
-#
-# @author    Hilary Luo <hluo@clearpathrobotics.com>
-# @copyright (c) 2024, Clearpath Robotics, Inc., All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-# * Redistributions of source code must retain the above copyright notice,
-#   this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright notice,
-#   this list of conditions and the following disclaimer in the documentation
-#   and/or other materials provided with the distribution.
-# * Neither the name of Clearpath Robotics nor the names of its contributors
-#   may be used to endorse or promote products derived from this software
-#   without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
+#!/usr/bin/env python3
 
+"""
+Software License Agreement (BSD)
+
+@author    Luis Camero <lcamero@clearpathrobotics.com>
+@copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+
+Patch that updates some of the type hinting semantics that sovles ```TypeError``` fatal errors by
+@author    Azmyin Md. Kamal <azmyin12@gmail.com>
+
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+* Neither the name of Clearpath Robotics nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+"""
+
+#imports
 import os
-from typing import List
+from typing import List, Union
 
 from clearpath_config.common.types.config import BaseConfig
 from clearpath_config.common.types.discovery import Discovery
@@ -69,11 +76,11 @@ class MiddlewareConfig(BaseConfig):
     def __init__(
             self,
             config: dict = {},
-            rmw_implementation: str | RMWImplementation = DEFAULTS[RMW],
-            discovery: str | Discovery = DEFAULTS[DISCOVERY],
+            rmw_implementation: Union[str, RMWImplementation]= DEFAULTS[RMW],
+            discovery: Union[str, Discovery] = DEFAULTS[DISCOVERY],
             profile: str = DEFAULTS[PROFILE],
             override_server_id: bool = DEFAULTS[OVERRIDE_SERVER_ID],
-            servers: List[dict] | ServerListConfig = DEFAULTS[SERVERS],
+            servers: Union[List[dict], ServerListConfig] = DEFAULTS[SERVERS],
             hosts: HostListConfig = None,
             localhost: Hostname = None
             ) -> None:
@@ -107,7 +114,7 @@ class MiddlewareConfig(BaseConfig):
         return str(self._rmw_implementation)
 
     @rmw_implementation.setter
-    def rmw_implementation(self, value: str | RMWImplementation) -> None:
+    def rmw_implementation(self, value: Union[str, RMWImplementation]) -> None:
         if isinstance(value, str):
             self._rmw_implementation = RMWImplementation(value)
         elif isinstance(value, RMWImplementation):
@@ -126,7 +133,7 @@ class MiddlewareConfig(BaseConfig):
         return str(self._discovery)
 
     @discovery.setter
-    def discovery(self, value: str | Discovery) -> None:
+    def discovery(self, value: Union[str, Discovery]) -> None:
         if isinstance(value, str):
             self._discovery = Discovery(value)
         elif isinstance(value, Discovery):
@@ -185,7 +192,7 @@ class MiddlewareConfig(BaseConfig):
         return self._servers
 
     @servers.setter
-    def servers(self, value: List[dict] | ServerListConfig) -> None:
+    def servers(self, value: Union[List[dict], ServerListConfig]) -> None:
         # Generate a list of ServerConfig Objects based on how the input was provided
         server_list = []
         if isinstance(value, list):

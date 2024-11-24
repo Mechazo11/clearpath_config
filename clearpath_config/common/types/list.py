@@ -6,7 +6,7 @@ Software License Agreement (BSD)
 @author    Luis Camero <lcamero@clearpathrobotics.com>
 @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
 
-config.py file patch for solving type hinting problem leading to an error in BaseConfig class by
+Patch that updates some of the type hinting semantics that sovles ```TypeError``` fatal errors by
 @author    Azmyin Md. Kamal <azmyin12@gmail.com>
 
 

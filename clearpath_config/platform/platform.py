@@ -1,30 +1,37 @@
-# Software License Agreement (BSD)
-#
-# @author    Luis Camero <lcamero@clearpathrobotics.com>
-# @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-# * Redistributions of source code must retain the above copyright notice,
-#   this list of conditions and the following disclaimer.
-# * Redistributions in binary form must reproduce the above copyright notice,
-#   this list of conditions and the following disclaimer in the documentation
-#   and/or other materials provided with the distribution.
-# * Neither the name of Clearpath Robotics nor the names of its contributors
-#   may be used to endorse or promote products derived from this software
-#   without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
+#!/usr/bin/env python3
+
+"""
+Software License Agreement (BSD)
+
+@author    Luis Camero <lcamero@clearpathrobotics.com>
+@copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
+
+Support for Xbox One / Xbox 360 controller added by
+@author    Azmyin Md. Kamal <azmyin12@gmail.com>
+
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+* Neither the name of Clearpath Robotics nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+"""
+# imports
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.types.config import BaseConfig
 from clearpath_config.common.types.package_path import PackagePath
@@ -34,7 +41,6 @@ from clearpath_config.platform.extras import ExtrasConfig
 from clearpath_config.platform.attachments.config import AttachmentsConfig
 from clearpath_config.platform.attachments.mux import AttachmentsConfigMux
 from clearpath_config.platform.can import CANBridgeConfig
-
 
 class DescriptionPackagePath(PackagePath):
     MACRO = "macro"
@@ -84,21 +90,27 @@ class DescriptionPackagePath(PackagePath):
 class PlatformConfig(BaseConfig):
 
     PLATFORM = "platform"
-    # Controllers
+    
+    # Gamepads/Controllers
     PS4 = "ps4"
     LOGITECH = "logitech"
+    XBOX = "xbox"
 
     CONTROLLER = "controller"
     ATTACHMENTS = "attachments"
     CAN_BRIDGES = "can_bridges"
+    
     # Extras
     EXTRAS = "extras"
+    
     # Generic Robot
     DESCRIPTION = "description"
     LAUNCH = "launch"
     CONTROL = "control"
+    
     # Battery
     BATTERY = "battery"
+    
     # Wheel
     WHEEL = "wheel"
 
@@ -204,10 +216,10 @@ class PlatformConfig(BaseConfig):
 
     @controller.setter
     def controller(self, value: str) -> None:
-        assert value.lower() in [self.PS4, self.LOGITECH], (
+        assert value.lower() in [self.PS4, self.LOGITECH, self.XBOX], (
             "'%s' controller is invalid. Must be one of: '%s'" % (
                 value.lower(),
-                [self.PS4, self.LOGITECH]))
+                [self.PS4, self.LOGITECH, self.XBOX]))
         self._controller = value.lower()
 
     @property

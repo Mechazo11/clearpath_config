@@ -113,6 +113,7 @@ class Republisher():
 
 
 class BaseCamera(BaseSensor):
+    """Define the base class to define new RGBD/Stereo camera sensors."""
     SENSOR_TYPE = "camera"
     SENSOR_MODEL = "base"
     TOPIC = "image"
@@ -243,9 +244,98 @@ class BaseCamera(BaseSensor):
         self.republishers = d.get('republishers', [])
 
 class AsusXtion(BaseCamera):
-    """Asus Xtion class."""
+    """
+    Asus Xtion class.
+    
+    NOTE: This camera is only meant to be used in simulation, hence a buch of codes
+    below may be redundant
+    """
     SENSOR_MODEL = "asus_xtion"
     pass
+
+    # RGB parameters
+    COLOR_ENABLED = True
+    COLOR_FPS = 30
+    COLOR_WIDTH = 640
+    COLOR_HEIGHT = 480
+
+    DEVICE_TYPE = "simulated_camera"
+
+    DEPTH_ENABLED = True
+    DEPTH_FPS = 30
+    DEPTH_WIDTH = 640
+    DEPTH_HEIGHT = 480
+
+    POINTCLOUD_ENABLED = False
+
+    class TOPICS:
+        COLOR_IMAGE = "color_image"
+        COLOR_CAMERA_INFO = "color_camera_info"
+        DEPTH_IMAGE = "depth_image"
+        DEPTH_CAMERA_INFO = "depth_camera_info"
+        POINTCLOUD = "points"
+        IMU = "imu"
+        NAME = {
+            COLOR_IMAGE: "color/image",
+            COLOR_CAMERA_INFO: "color/camera_info",
+            DEPTH_IMAGE: "depth/image",
+            DEPTH_CAMERA_INFO: "depth/camera_info",
+            POINTCLOUD: "points",
+            IMU: "imu"
+        }
+        RATE = {
+            COLOR_IMAGE: BaseCamera.FPS,
+            COLOR_CAMERA_INFO: BaseCamera.FPS,
+            DEPTH_IMAGE: BaseCamera.FPS,
+            DEPTH_CAMERA_INFO: BaseCamera.FPS,
+            POINTCLOUD: BaseCamera.FPS,
+            IMU: BaseCamera.FPS
+        }
+
+    def __init__(
+            self,
+            idx: int = None,
+            name: str = None,
+            topic: str = BaseCamera.TOPIC,
+            serial: str = BaseCamera.SERIAL,
+            device_type: str = DEVICE_TYPE,
+            color_enabled: bool = COLOR_ENABLED,
+            color_fps: bool = COLOR_FPS,
+            color_width: int = COLOR_WIDTH,
+            color_height: int = COLOR_HEIGHT,
+            depth_enabled: bool = DEPTH_ENABLED,
+            depth_fps: int = DEPTH_FPS,
+            depth_width: int = DEPTH_WIDTH,
+            depth_height: int = DEPTH_HEIGHT,
+            pointcloud_enabled: bool = POINTCLOUD_ENABLED,
+            urdf_enabled: bool = BaseSensor.URDF_ENABLED,
+            launch_enabled: bool = BaseSensor.LAUNCH_ENABLED,
+            ros_parameters: dict = BaseSensor.ROS_PARAMETERS,
+            parent: str = Accessory.PARENT,
+            xyz: List[float] = Accessory.XYZ,
+            rpy: List[float] = Accessory.RPY
+            ) -> None:
+        
+        
+        # ROS Parameter Template
+        # 12/22/2024 I don't think for a simulated camera this is really required
+        ros_parameters_template = {}
+
+        super().__init__(
+            idx,
+            name,
+            topic,
+            color_fps,
+            serial,
+            urdf_enabled,
+            launch_enabled,
+            ros_parameters,
+            ros_parameters_template,
+            parent,
+            xyz,
+            rpy
+        )
+    
 
 class IntelRealsense(BaseCamera):
     SENSOR_MODEL = "intel_realsense"

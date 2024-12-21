@@ -435,6 +435,7 @@ class SensorConfig(BaseConfig):
 
     # Get All Sensors
     def get_all_sensors(self) -> List[BaseSensor]:
+        """Get all sensors without nested lists."""
         sensors = []
         # Lidar2D
         sensors.extend(self.get_all_lidar_2d())

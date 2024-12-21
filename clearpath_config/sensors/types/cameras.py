@@ -30,9 +30,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
 
-
+# Imports
 from math import pi
-
 from clearpath_config.common.types.accessory import Accessory
 from clearpath_config.sensors.types.sensor import BaseSensor
 from clearpath_config.common.utils.dictionary import extend_flat_dict
@@ -243,6 +242,10 @@ class BaseCamera(BaseSensor):
         super().from_dict(d)
         self.republishers = d.get('republishers', [])
 
+class AsusXtion(BaseCamera):
+    """Asus Xtion class."""
+    SENSOR_MODEL = "asus_xtion"
+    pass
 
 class IntelRealsense(BaseCamera):
     SENSOR_MODEL = "intel_realsense"

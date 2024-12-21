@@ -4,7 +4,7 @@ Software License Agreement (BSD)
 @author    Luis Camero <lcamero@clearpathrobotics.com>
 @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
 
-Patch that adds Asus Xtion RGBD camera by
+Asus Xtion support added by
 @author    Azmyin Md. Kamal <azmyin12@gmail.com>
 
 
@@ -45,6 +45,7 @@ from clearpath_config.sensors.types.cameras import (
     IntelRealsense,
     StereolabsZed,
     LuxonisOAKD,
+    AsusXtion
 )
 from clearpath_config.sensors.types.gps import (
     BaseGPS,
@@ -106,6 +107,7 @@ class Camera():
     INTEL_REALSENSE = IntelRealsense.SENSOR_MODEL
     STEREOLABS_ZED = StereolabsZed.SENSOR_MODEL
     LUXONIS_OAKD = LuxonisOAKD.SENSOR_MODEL
+    ASUS_XTION = AsusXtion.SENSOR_MODEL
 
     MODEL = {
         AXIS_CANERA: AxisCamera,
@@ -113,6 +115,7 @@ class Camera():
         INTEL_REALSENSE: IntelRealsense,
         STEREOLABS_ZED: StereolabsZed,
         LUXONIS_OAKD: LuxonisOAKD,
+        ASUS_XTION: AsusXtion,
     }
 
     @classmethod

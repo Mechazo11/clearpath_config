@@ -4,9 +4,8 @@ Software License Agreement (BSD)
 @author    Luis Camero <lcamero@clearpathrobotics.com>
 @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
 
-Asus Xtion RGBD camera added by
+Simulated Asus Xtion and Intel Realsense RGB-D camera added by
 @author    Azmyin Md. Kamal <azmyin12@gmail.com>
-
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -110,7 +109,6 @@ class Republisher():
         assert config[self.TYPE] in self.TYPES, (
             "Republisher '%s' must be one of: '%s'." % (self.TYPE, [i for i in self.TYPES]))
         return self.TYPES[config[self.TYPE]](config)
-
 
 class BaseCamera(BaseSensor):
     """Define the base class to define new RGBD/Stereo camera sensors."""
@@ -249,6 +247,8 @@ class AsusXtion(BaseCamera):
     
     NOTE: This camera is only meant to be used in simulation, hence a buch of codes
     below may be redundant
+
+    01/12/2025: Depth image support may be incomplete please check or open a ticket to discuss further.
     """
     SENSOR_MODEL = "asus_xtion"
     pass
@@ -336,6 +336,97 @@ class AsusXtion(BaseCamera):
             rpy
         )
     
+class IntelRealsenseSimulated(BaseCamera):
+    """
+    Intel Realsense Simulated RGB-D sensor class
+    
+    NOTE: This camera is only meant to be used in simulation
+    NOTE: PointClouds is not supported 01/12/2025
+    """
+    SENSOR_MODEL = "intel_realsense_sim"
+    DEVICE_TYPE = "simulated_camera"
+
+    # RGB parameters
+    COLOR_ENABLED = True
+    COLOR_FPS = 30
+    COLOR_WIDTH = 640
+    COLOR_HEIGHT = 480
+
+    # Depth parameters
+    DEPTH_ENABLED = True
+    DEPTH_FPS = 30
+    DEPTH_WIDTH = 640
+    DEPTH_HEIGHT = 480
+
+    POINTCLOUD_ENABLED = False
+
+    class TOPICS:
+        COLOR_IMAGE = "color_image"
+        COLOR_CAMERA_INFO = "color_camera_info"
+        DEPTH_IMAGE = "depth_image"
+        DEPTH_CAMERA_INFO = "depth_camera_info"
+        POINTCLOUD = "points"
+        IMU = "imu"
+        NAME = {
+            COLOR_IMAGE: "color/image",
+            COLOR_CAMERA_INFO: "color/camera_info",
+            DEPTH_IMAGE: "depth/image",
+            DEPTH_CAMERA_INFO: "depth/camera_info",
+            POINTCLOUD: "points",
+            IMU: "imu"
+        }
+        RATE = {
+            COLOR_IMAGE: BaseCamera.FPS,
+            COLOR_CAMERA_INFO: BaseCamera.FPS,
+            DEPTH_IMAGE: BaseCamera.FPS,
+            DEPTH_CAMERA_INFO: BaseCamera.FPS,
+            POINTCLOUD: BaseCamera.FPS,
+            IMU: BaseCamera.FPS
+        }
+
+    def __init__(
+            self,
+            idx: int = None,
+            name: str = None,
+            topic: str = BaseCamera.TOPIC,
+            serial: str = BaseCamera.SERIAL,
+            device_type: str = DEVICE_TYPE,
+            color_enabled: bool = COLOR_ENABLED,
+            color_fps: bool = COLOR_FPS,
+            color_width: int = COLOR_WIDTH,
+            color_height: int = COLOR_HEIGHT,
+            depth_enabled: bool = DEPTH_ENABLED,
+            depth_fps: int = DEPTH_FPS,
+            depth_width: int = DEPTH_WIDTH,
+            depth_height: int = DEPTH_HEIGHT,
+            pointcloud_enabled: bool = POINTCLOUD_ENABLED,
+            urdf_enabled: bool = BaseSensor.URDF_ENABLED,
+            launch_enabled: bool = BaseSensor.LAUNCH_ENABLED,
+            ros_parameters: dict = BaseSensor.ROS_PARAMETERS,
+            parent: str = Accessory.PARENT,
+            xyz: List[float] = Accessory.XYZ,
+            rpy: List[float] = Accessory.RPY
+            ) -> None:
+        
+        # ROS Parameter Template
+        # 12/22/2024 I don't think for a simulated camera this is really required
+        ros_parameters_template = {}
+
+        super().__init__(
+            idx,
+            name,
+            topic,
+            color_fps,
+            serial,
+            urdf_enabled,
+            launch_enabled,
+            ros_parameters,
+            ros_parameters_template,
+            parent,
+            xyz,
+            rpy
+        )
+
 
 class IntelRealsense(BaseCamera):
     SENSOR_MODEL = "intel_realsense"

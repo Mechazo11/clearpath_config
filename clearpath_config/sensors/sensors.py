@@ -4,9 +4,8 @@ Software License Agreement (BSD)
 @author    Luis Camero <lcamero@clearpathrobotics.com>
 @copyright (c) 2023, Clearpath Robotics, Inc., All rights reserved.
 
-Asus Xtion support added by
+Simulated Asus Xtion and Intel Realsense RGB-D camera added by
 @author    Azmyin Md. Kamal <azmyin12@gmail.com>
-
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -37,7 +36,7 @@ from clearpath_config.common.types.list import OrderedListConfig
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.common.utils.dictionary import flip_dict
 from clearpath_config.sensors.types.sensor import BaseSensor
-
+# Import base classes for each type of sensors
 from clearpath_config.sensors.types.cameras import (
     AxisCamera,
     BaseCamera,
@@ -45,7 +44,8 @@ from clearpath_config.sensors.types.cameras import (
     IntelRealsense,
     StereolabsZed,
     LuxonisOAKD,
-    AsusXtion
+    AsusXtion,
+    IntelRealsenseSimulated
 )
 from clearpath_config.sensors.types.gps import (
     BaseGPS,
@@ -72,8 +72,8 @@ from clearpath_config.sensors.types.lidars_3d import (
     VelodyneLidar,
 )
 
+# Type hinting
 from typing import List
-
 
 class InertialMeasurementUnit():
     MICROSTRAIN_IMU = Microstrain.SENSOR_MODEL
@@ -100,7 +100,6 @@ class InertialMeasurementUnit():
         cls.assert_model(model)
         return cls.MODEL[model]()
 
-
 class Camera():
     AXIS_CANERA = AxisCamera.SENSOR_MODEL
     FLIR_BLACKFLY = FlirBlackfly.SENSOR_MODEL
@@ -108,6 +107,7 @@ class Camera():
     STEREOLABS_ZED = StereolabsZed.SENSOR_MODEL
     LUXONIS_OAKD = LuxonisOAKD.SENSOR_MODEL
     ASUS_XTION = AsusXtion.SENSOR_MODEL
+    INTEL_REALSENSE_SIMULATED = IntelRealsenseSimulated.SENSOR_MODEL
 
     MODEL = {
         AXIS_CANERA: AxisCamera,
@@ -116,6 +116,7 @@ class Camera():
         STEREOLABS_ZED: StereolabsZed,
         LUXONIS_OAKD: LuxonisOAKD,
         ASUS_XTION: AsusXtion,
+        INTEL_REALSENSE_SIMULATED: IntelRealsenseSimulated
     }
 
     @classmethod
@@ -160,7 +161,6 @@ class GlobalPositioningSystem():
         cls.assert_model(model)
         return cls.MODEL[model]()
 
-
 class Lidar2D():
     HOKUYO_UST = HokuyoUST.SENSOR_MODEL
     SICK_LMS1XX = SickLMS1XX.SENSOR_MODEL
@@ -183,7 +183,6 @@ class Lidar2D():
         cls.assert_model(model)
         return cls.MODEL[model]()
 
-
 class Lidar3D():
     VELODYNE_LIDAR = VelodyneLidar.SENSOR_MODEL
 
@@ -203,7 +202,6 @@ class Lidar3D():
     def __new__(cls, model: str) -> BaseLidar3D:
         cls.assert_model(model)
         return cls.MODEL[model]()
-
 
 class Sensor():
     CAMERA = BaseCamera.SENSOR_TYPE
@@ -233,7 +231,6 @@ class Sensor():
         cls.assert_type(_type)
         return cls.TYPE[_type](_model)
 
-
 class SensorListConfig(OrderedListConfig[BaseSensor]):
     def __init__(self) -> None:
         super().__init__(obj_type=BaseSensor)
@@ -243,7 +240,6 @@ class SensorListConfig(OrderedListConfig[BaseSensor]):
         for accessory in self.get_all():
             d.append(accessory.to_dict())
         return d
-
 
 # Sensor Config
 class SensorConfig(BaseConfig):
